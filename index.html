@@ -13,20 +13,19 @@
     <script>
         const btn = document.getElementById("generate-gif")
         btn.addEventListener("click", (e) => {
-            const img = document.querySelector("img")
-            e.preventDefault()
-            // Gifs were not loading due to not being concatenated to end of api
-            let url = "https://api.giphy.com/v1/gifs/search?api_key=ENTAi8TA18Q5IHfvg3PF56WyQrJIKI36&limit=1&q="
-            let str = document.getElementById("search").value.trim()
-            url = url.concat(str)
-            fetch(url)
-                .then(function (response) {
-                    // console.log(response.json())
-                    return response.json()
-                })
-                .then(function (response) {
-                    img.src = response.data[0].images.original.url
-                })
+            async function getURL() {
+                const img = document.querySelector("img")
+                e.preventDefault()
+                // Gifs were not loading due to not being concatenated to end of api
+                let url = "https://api.giphy.com/v1/gifs/search?api_key=ENTAi8TA18Q5IHfvg3PF56WyQrJIKI36&limit=1&q="
+                let str = document.getElementById("search").value.trim()
+                url = url.concat(str)
+                const response = await fetch(url, { mode: 'cors' })
+                const getData = await response.json()
+                console.log(response, getData)
+                img.src = getData.data[0].images.original.url
+            }
+            getURL()
         })
     </script>
 </body>
